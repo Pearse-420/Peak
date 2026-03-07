@@ -89,6 +89,15 @@ width:0%;
 </head>
 
 <body>
+  <audio id="bgMusic" loop>
+<source src="song.mp3" type="audio/mp3">
+</audio>
+
+<script>
+window.addEventListener("click", function(){
+document.getElementById("bgMusic").play();
+});
+</script>
 
 <div class="container">
 
@@ -168,9 +177,7 @@ document.getElementById("progressBar").style.width = percent + "%";
 },1000);
 
 </script>
-<audio id="bgMusic" autoplay loop>
-<source src="song.mp3" type="audio/mp3">
-</audio>
+  
 </body>
 
 </html>
