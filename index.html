@@ -2,209 +2,229 @@
 <html>
 
 <head>
-
 <title>Time left until PEAK</title>
-
 <style>
-
-body{
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-font-family:Arial;
-color:white;
-text-align:center;
-
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
+/* --- Body & background --- */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  background-image: url("background.gif");
+  background-size: cover;
+  background-position: center;
 }
 
-/* Dark overlay behind content */
-body::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.65);
-z-index:0;
+/* Dark overlay */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
 }
 
-/* Main container */
-.container{
-position:relative;
-z-index:1;
-}
-
-/* Timer blocks */
-.timer{
-display:flex;
-gap:25px;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:20px;
-}
-
-.block{
-background:rgba(0,0,0,0.6);
-padding:25px;
-border-radius:10px;
-min-width:120px;
-}
-
-.number{
-font-size:45px;
-font-weight:bold;
-}
-
-.label{
-font-size:14px;
-opacity:0.8;
-}
-
-/* Progress bar */
-.progress-container{
-margin-top:40px;
-width:80%;
-height:10px;
-background:rgba(255,255,255,0.2);
-border-radius:10px;
-overflow:hidden;
-margin-left:auto;
-margin-right:auto;
-}
-
-.progress{
-height:100%;
-background:white;
-width:0%;
+/* Countdown container */
+.container {
+  position: relative;
+  z-index: 2;
 }
 
 /* Reveal screen */
-#revealScreen{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-backdrop-filter: blur(12px);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
-cursor:pointer;
+#revealScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  cursor: pointer;
+  animation: fadeIn 0.8s;
 }
 
-#revealText{
-font-size:40px;
-letter-spacing:3px;
+#revealText {
+  font-size: 50px;
+  letter-spacing: 3px;
+  color: #0ff;
+  text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
 }
 
+/* Neon blocks */
+.timer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.block {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 25px;
+  border-radius: 15px;
+  min-width: 120px;
+  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+}
+
+.number {
+  font-size: 50px;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+.label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Progress bar */
+.progress-container {
+  margin-top: 40px;
+  width: 80%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress {
+  height: 100%;
+  background: #0ff;
+  width: 0%;
+}
+
+/* Volume slider */
+#volumeControl {
+  margin-top: 20px;
+  width: 200px;
+}
+
+/* Particles */
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #0ff;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 5s linear infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes float {
+  0% {transform: translateY(0) translateX(0);}
+  50% {transform: translateY(-50px) translateX(20px);}
+  100% {transform: translateY(0) translateX(0);}
+}
 </style>
-
 </head>
 
 <body>
 
 <!-- Music -->
 <audio id="bgMusic" loop>
-<source src="song.mp3" type="audio/mp3">
+  <source src="song.mp3" type="audio/mp3">
 </audio>
 
 <!-- Reveal screen -->
 <div id="revealScreen">
-<div id="revealText">Click to reveal</div>
+  <div id="revealText">Click to reveal</div>
 </div>
 
+<!-- Countdown content -->
 <div class="container">
-
 <h1>Time left until PEAK</h1>
 
 <div class="timer">
-
-<div class="block">
-<div class="number" id="months"></div>
-<div class="label">MONTHS</div>
-</div>
-
-<div class="block">
-<div class="number" id="weeks"></div>
-<div class="label">WEEKS</div>
-</div>
-
-<div class="block">
-<div class="number" id="days"></div>
-<div class="label">DAYS</div>
-</div>
-
-<div class="block">
-<div class="number" id="hours"></div>
-<div class="label">HOURS</div>
-</div>
-
-<div class="block">
-<div class="number" id="minutes"></div>
-<div class="label">MINUTES</div>
-</div>
-
-<div class="block">
-<div class="number" id="seconds"></div>
-<div class="label">SECONDS</div>
-</div>
-
+  <div class="block"><div class="number" id="months"></div><div class="label">MONTHS</div></div>
+  <div class="block"><div class="number" id="weeks"></div><div class="label">WEEKS</div></div>
+  <div class="block"><div class="number" id="days"></div><div class="label">DAYS</div></div>
+  <div class="block"><div class="number" id="hours"></div><div class="label">HOURS</div></div>
+  <div class="block"><div class="number" id="minutes"></div><div class="label">MINUTES</div></div>
+  <div class="block"><div class="number" id="seconds"></div><div class="label">SECONDS</div></div>
 </div>
 
 <div class="progress-container">
-<div class="progress" id="progressBar"></div>
+  <div class="progress" id="progressBar"></div>
 </div>
+
+<!-- Volume slider -->
+<input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
 
 </div>
 
 <script>
-
-/* Reveal screen */
+// Reveal screen click
 document.getElementById("revealScreen").addEventListener("click", function(){
-this.style.display="none";
-document.getElementById("bgMusic").play();
+  this.style.display = "none";
+  const music = document.getElementById("bgMusic");
+  music.volume = document.getElementById("volumeControl").value;
+  music.play();
 });
 
-/* Countdown */
+// Volume control
+document.getElementById("volumeControl").addEventListener("input", function(){
+  document.getElementById("bgMusic").volume = this.value;
+});
+
+// Countdown timer
 var startDate = new Date("January 1, 2026").getTime();
 var targetDate = new Date("May 18, 2026 00:00:00").getTime();
 
 setInterval(function(){
+  var now = new Date().getTime();
+  var distance = targetDate - now;
 
-var now = new Date().getTime();
-var distance = targetDate - now;
+  var seconds = Math.floor((distance/1000)%60);
+  var minutes = Math.floor((distance/1000/60)%60);
+  var hours = Math.floor((distance/(1000*60*60))%24);
+  var days = Math.floor((distance/(1000*60*60*24))%7);
+  var weeks = Math.floor((distance/(1000*60*60*24*7))%4);
+  var months = Math.floor((distance/(1000*60*60*24*30)));
 
-var seconds = Math.floor((distance/1000)%60);
-var minutes = Math.floor((distance/1000/60)%60);
-var hours = Math.floor((distance/(1000*60*60))%24);
-var days = Math.floor((distance/(1000*60*60*24))%7);
-var weeks = Math.floor((distance/(1000*60*60*24*7))%4);
-var months = Math.floor((distance/(1000*60*60*24*30)));
+  document.getElementById("months").innerHTML = months;
+  document.getElementById("weeks").innerHTML = weeks;
+  document.getElementById("days").innerHTML = days;
+  document.getElementById("hours").innerHTML = hours;
+  document.getElementById("minutes").innerHTML = minutes;
+  document.getElementById("seconds").innerHTML = seconds;
 
-document.getElementById("months").innerHTML = months;
-document.getElementById("weeks").innerHTML = weeks;
-document.getElementById("days").innerHTML = days;
-document.getElementById("hours").innerHTML = hours;
-document.getElementById("minutes").innerHTML = minutes;
-document.getElementById("seconds").innerHTML = seconds;
+  // Progress bar
+  var total = targetDate - startDate;
+  var passed = now - startDate;
+  var percent = (passed/total)*100;
+  document.getElementById("progressBar").style.width = percent + "%";
+}, 1000);
 
-/* Progress bar */
-var total = targetDate - startDate;
-var passed = now - startDate;
-
-var percent = (passed/total) * 100;
-document.getElementById("progressBar").style.width = percent + "%";
-
-},1000);
-
+// Particle generator
+for (let i = 0; i < 50; i++){
+  let particle = document.createElement("div");
+  particle.className = "particle";
+  particle.style.left = Math.random()*window.innerWidth + "px";
+  particle.style.top = Math.random()*window.innerHeight + "px";
+  particle.style.animationDuration = (3 + Math.random()*5) + "s";
+  document.body.appendChild(particle);
+}
 </script>
 
 </body>
