@@ -19,8 +19,8 @@ font-size:40px;
 
 <body>
 
-<h1>Time left until PEAK</h1>
-<div id="countdown"></div>
+<h1>Countdown of PEAK</h1>
+<div id="Time left until PEAK"></div>
 
 <script>
 
@@ -38,7 +38,7 @@ var days = Math.floor((distance/(1000*60*60*24))%7);
 var weeks = Math.floor((distance/(1000*60*60*24*7))%4);
 var months = Math.floor((distance/(1000*60*60*24*30)));
 
-document.getElementById("countdown").innerHTML =
+document.getElementById("Time left until PEAK").innerHTML =
 months + " months " +
 weeks + " weeks " +
 days + " days " +
