@@ -5,162 +5,146 @@
 <title>Time left until PEAK</title>
 
 <style>
-/* --- Body & background --- */
+
 body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial,sans-serif;
-  color:white;
-  text-align:center;
-  overflow:hidden;
-  background-image:url("background.gif");
-  background-size:cover;
-  background-position:center;
-  position:relative;
-  animation: bgZoom 30s ease-in-out infinite alternate;
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial,sans-serif;
+color:white;
+text-align:center;
+overflow:hidden;
+
+background-image:url("background.jpg");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+position:relative;
 }
 
-/* Background zoom animation */
-@keyframes bgZoom{
-  0% { transform: scale(1);}
-  50% { transform: scale(1.05);}
-  100% { transform: scale(1);}
-}
-
-/* Dark overlay */
-body::before{
-  content:"";
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.65);
-  z-index:0;
+/* Dark cinematic overlay */
+body::after{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+z-index:0;
 }
 
 /* Main container */
 .container{
-  position:relative;
-  z-index:2;
-  animation: fadeUp 1.5s ease;
+position:relative;
+z-index:2;
+animation:fadeUp 1.5s ease;
 }
 
-/* Countdown grid */
+/* Timer grid */
 .timer{
-  display:flex;
-  gap:25px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-top:25px;
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:25px;
 }
 
-/* Glassmorphism cards */
+/* Glass neon cards */
 .block{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter: blur(14px);
-  padding:25px;
-  border-radius:18px;
-  min-width:130px;
-  box-shadow:0 0 20px #b300ff,0 0 50px #8000ff;
-  border:1px solid rgba(255,255,255,0.08);
-  transition:0.3s;
-  transform-style: preserve-3d;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(14px);
+padding:25px;
+border-radius:18px;
+min-width:130px;
+box-shadow:0 0 20px #b300ff,0 0 50px #8000ff;
+border:1px solid rgba(255,255,255,0.08);
+transition:0.3s;
 }
 
 .block:hover{
-  transform: scale(1.07);
+transform:scale(1.07);
 }
 
 .number{
-  font-size:52px;
-  font-weight:bold;
-  color:#d966ff;
-  text-shadow:0 0 15px #b300ff,0 0 30px #8000ff;
-  display:inline-block;
-  transform-style: preserve-3d;
-  animation: flip 0.5s ease forwards;
+font-size:52px;
+font-weight:bold;
+color:#d966ff;
+text-shadow:0 0 15px #b300ff,0 0 30px #8000ff;
 }
 
 .label{
-  font-size:14px;
-  opacity:0.8;
-}
-
-/* Countdown flip animation */
-@keyframes flip{
-  0%{transform: rotateX(90deg);}
-  100%{transform: rotateX(0deg);}
+font-size:14px;
+opacity:0.8;
 }
 
 /* Progress bar */
 .progress-container{
-  margin-top:40px;
-  width:80%;
-  height:12px;
-  background:rgba(255,255,255,0.15);
-  border-radius:10px;
-  overflow:hidden;
-  margin-left:auto;
-  margin-right:auto;
+margin-top:40px;
+width:80%;
+height:12px;
+background:rgba(255,255,255,0.15);
+border-radius:10px;
+overflow:hidden;
+margin-left:auto;
+margin-right:auto;
 }
 
 .progress{
-  height:100%;
-  width:0%;
-  background:#b300ff;
-  box-shadow:0 0 20px #b300ff;
-  transition:0.5s;
+height:100%;
+width:0%;
+background:#b300ff;
+box-shadow:0 0 20px #b300ff;
+transition:0.5s;
 }
 
 /* Reveal screen */
 #revealScreen{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.95);
-  backdrop-filter: blur(15px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-  cursor:pointer;
-  animation:fadeIn 1s;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+backdrop-filter:blur(15px);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+cursor:pointer;
+animation:fadeIn 1s;
 }
 
 #revealText{
-  font-size:55px;
-  letter-spacing:4px;
-  color:#d966ff;
-  text-shadow:0 0 20px #b300ff,0 0 40px #8000ff;
+font-size:55px;
+letter-spacing:4px;
+color:#d966ff;
+text-shadow:0 0 20px #b300ff,0 0 40px #8000ff;
 }
 
 /* Volume slider */
 #volumeControl{
-  margin-top:25px;
-  width:220px;
+margin-top:25px;
+width:220px;
 }
 
 /* Animations */
 @keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
+from{opacity:0;}
+to{opacity:1;}
 }
 
 @keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(40px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 </style>
@@ -170,12 +154,12 @@ body::before{
 
 <!-- Music -->
 <audio id="bgMusic" loop>
-  <source src="song.mp3" type="audio/mp3">
+<source src="song.mp3" type="audio/mp3">
 </audio>
 
 <!-- Reveal Screen -->
 <div id="revealScreen">
-  <div id="revealText">Click to reveal</div>
+<div id="revealText">Click to reveal</div>
 </div>
 
 <div class="container">
@@ -183,16 +167,16 @@ body::before{
 <h1>Time left until PEAK</h1>
 
 <div class="timer">
-  <div class="block"><div class="number" id="months"></div><div class="label">MONTHS</div></div>
-  <div class="block"><div class="number" id="weeks"></div><div class="label">WEEKS</div></div>
-  <div class="block"><div class="number" id="days"></div><div class="label">DAYS</div></div>
-  <div class="block"><div class="number" id="hours"></div><div class="label">HOURS</div></div>
-  <div class="block"><div class="number" id="minutes"></div><div class="label">MINUTES</div></div>
-  <div class="block"><div class="number" id="seconds"></div><div class="label">SECONDS</div></div>
+<div class="block"><div class="number" id="months"></div><div class="label">MONTHS</div></div>
+<div class="block"><div class="number" id="weeks"></div><div class="label">WEEKS</div></div>
+<div class="block"><div class="number" id="days"></div><div class="label">DAYS</div></div>
+<div class="block"><div class="number" id="hours"></div><div class="label">HOURS</div></div>
+<div class="block"><div class="number" id="minutes"></div><div class="label">MINUTES</div></div>
+<div class="block"><div class="number" id="seconds"></div><div class="label">SECONDS</div></div>
 </div>
 
 <div class="progress-container">
-  <div class="progress" id="progressBar"></div>
+<div class="progress" id="progressBar"></div>
 </div>
 
 <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
@@ -200,51 +184,61 @@ body::before{
 </div>
 
 <script>
-// Reveal screen + music fade-in
+
+/* Reveal + music fade in */
 document.getElementById("revealScreen").addEventListener("click",function(){
-  this.style.display="none";
-  const music=document.getElementById("bgMusic");
-  music.volume=0;
-  music.play();
 
-  let v=0;
-  let fade=setInterval(()=>{
-    if(v<0.5){ v+=0.02; music.volume=v;}
-    else clearInterval(fade);
-  },100);
+this.style.display="none";
+
+const music=document.getElementById("bgMusic");
+music.volume=0;
+music.play();
+
+/* Smooth fade in music */
+let v=0;
+let fade=setInterval(()=>{
+if(v<0.5){
+v+=0.02;
+music.volume=v;
+}else clearInterval(fade);
+},100);
+
 });
 
-// Volume control
+/* Volume control */
 document.getElementById("volumeControl").addEventListener("input",function(){
-  document.getElementById("bgMusic").volume=this.value;
+document.getElementById("bgMusic").volume=this.value;
 });
 
-// Countdown
-var startDate=new Date("January 1, 2026").getTime();
-var targetDate=new Date("May 18, 2026 00:00:00").getTime();
+/* Countdown */
+var startDate=new Date("January 1, 2024").getTime();
+var targetDate=new Date("December 31, 2026 00:00:00").getTime();
 
 setInterval(function(){
-  var now=new Date().getTime();
-  var distance=targetDate-now;
 
-  var seconds=Math.floor((distance/1000)%60);
-  var minutes=Math.floor((distance/1000/60)%60);
-  var hours=Math.floor((distance/(1000*60*60))%24);
-  var days=Math.floor((distance/(1000*60*60*24))%7);
-  var weeks=Math.floor((distance/(1000*60*60*24*7))%4);
-  var months=Math.floor((distance/(1000*60*60*24*30)));
+var now=new Date().getTime();
+var distance=targetDate-now;
 
-  document.getElementById("months").innerHTML=months;
-  document.getElementById("weeks").innerHTML=weeks;
-  document.getElementById("days").innerHTML=days;
-  document.getElementById("hours").innerHTML=hours;
-  document.getElementById("minutes").innerHTML=minutes;
-  document.getElementById("seconds").innerHTML=seconds;
+var seconds=Math.floor((distance/1000)%60);
+var minutes=Math.floor((distance/1000/60)%60);
+var hours=Math.floor((distance/(1000*60*60))%24);
+var days=Math.floor((distance/(1000*60*60*24))%7);
+var weeks=Math.floor((distance/(1000*60*60*24*7))%4);
+var months=Math.floor((distance/(1000*60*60*24*30)));
 
-  var total=targetDate-startDate;
-  var passed=now-startDate;
-  var percent=(passed/total)*100;
-  document.getElementById("progressBar").style.width=percent+"%";
+document.getElementById("months").innerHTML=months;
+document.getElementById("weeks").innerHTML=weeks;
+document.getElementById("days").innerHTML=days;
+document.getElementById("hours").innerHTML=hours;
+document.getElementById("minutes").innerHTML=minutes;
+document.getElementById("seconds").innerHTML=seconds;
+
+/* Progress */
+var total=targetDate-startDate;
+var passed=now-startDate;
+var percent=(passed/total)*100;
+
+document.getElementById("progressBar").style.width=percent+"%";
 
 },1000);
 
