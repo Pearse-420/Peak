@@ -2,9 +2,11 @@
 <html>
 
 <head>
-<title>Time left until PEAK</title>
+<title>LEGENDARY PEAK COUNTDOWN</title>
 
 <style>
+
+/* ========== BODY ========== */
 
 body{
 margin:0;
@@ -14,90 +16,127 @@ justify-content:center;
 align-items:center;
 font-family:Arial,sans-serif;
 color:white;
-text-align:center;
 overflow:hidden;
 
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+background:black;
 position:relative;
 }
 
-/* Dark cinematic overlay */
+/* Starfield background */
+.stars{
+position:fixed;
+width:2px;
+height:2px;
+background:white;
+box-shadow:0 0 white;
+animation:twinkle 5s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.3;}
+to{opacity:1;}
+}
+
+/* Dark space gradient */
 body::after{
 content:"";
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.55);
+background:radial-gradient(circle,rgba(0,0,0,0.2),black 80%);
 z-index:0;
 }
 
-/* Main container */
+/* Container */
 .container{
 position:relative;
 z-index:2;
+text-align:center;
 animation:fadeUp 1.5s ease;
 }
 
-/* Timer grid */
-.timer{
-display:flex;
-gap:25px;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:25px;
+/* Title */
+h1{
+font-size:70px;
+text-shadow:
+0 0 20px #b300ff,
+0 0 60px #8000ff,
+0 0 120px #e6a3ff;
 }
 
-/* Glass neon cards */
+/* Timer cubes */
+.timer{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+perspective:1400px;
+}
+
 .block{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(14px);
-padding:25px;
-border-radius:18px;
-min-width:130px;
-box-shadow:0 0 20px #b300ff,0 0 50px #8000ff;
-border:1px solid rgba(255,255,255,0.08);
-transition:0.3s;
+background:linear-gradient(145deg,#12001a,#000);
+padding:30px;
+border-radius:22px;
+min-width:150px;
+
+box-shadow:
+0 0 40px #8000ff,
+0 0 100px rgba(179,0,255,0.8);
+
+border:1px solid rgba(255,255,255,0.1);
+
+transition:0.5s;
+transform-style:preserve-3d;
 }
 
 .block:hover{
-transform:scale(1.07);
+transform:rotateX(18deg) rotateY(18deg) scale(1.1);
 }
 
 .number{
-font-size:52px;
+font-size:60px;
 font-weight:bold;
-color:#d966ff;
-text-shadow:0 0 15px #b300ff,0 0 30px #8000ff;
+color:#e6a3ff;
+text-shadow:0 0 25px #b300ff;
+animation:flipNum .6s ease;
 }
 
 .label{
-font-size:14px;
 opacity:0.8;
+}
+
+/* Flip animation */
+@keyframes flipNum{
+from{
+transform:rotateX(90deg);
+opacity:0;
+}
+to{
+transform:rotateX(0);
+opacity:1;
+}
 }
 
 /* Progress bar */
 .progress-container{
-margin-top:40px;
+margin-top:45px;
 width:80%;
-height:12px;
-background:rgba(255,255,255,0.15);
-border-radius:10px;
+height:18px;
+background:rgba(255,255,255,0.1);
+border-radius:40px;
 overflow:hidden;
-margin-left:auto;
-margin-right:auto;
+
+box-shadow:
+0 0 40px #8000ff,
+0 0 80px #b300ff;
 }
 
 .progress{
 height:100%;
 width:0%;
-background:#b300ff;
-box-shadow:0 0 20px #b300ff;
-transition:0.5s;
+background:linear-gradient(90deg,#8000ff,#b300ff,#e6a3ff);
+box-shadow:0 0 80px #b300ff;
+transition:0.7s;
 }
 
 /* Reveal screen */
@@ -107,39 +146,33 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.95);
-backdrop-filter:blur(15px);
+background:rgba(0,0,0,0.97);
+backdrop-filter:blur(35px);
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:999;
 cursor:pointer;
-animation:fadeIn 1s;
 }
 
 #revealText{
-font-size:55px;
-letter-spacing:4px;
-color:#d966ff;
-text-shadow:0 0 20px #b300ff,0 0 40px #8000ff;
+font-size:70px;
+letter-spacing:8px;
+color:#e6a3ff;
+text-shadow:0 0 50px #b300ff;
 }
 
-/* Volume slider */
+/* Volume */
 #volumeControl{
-margin-top:25px;
-width:220px;
+margin-top:30px;
+width:240px;
 }
 
 /* Animations */
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
-}
-
 @keyframes fadeUp{
 from{
 opacity:0;
-transform:translateY(40px);
+transform:translateY(60px);
 }
 to{
 opacity:1;
@@ -147,24 +180,36 @@ transform:translateY(0);
 }
 }
 
+/* Screen shake (bass effect) */
+.shake{
+animation:shake 0.4s;
+}
+
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(-4px,4px);}
+50%{transform:translate(4px,-4px);}
+75%{transform:translate(-4px,-4px);}
+100%{transform:translate(0,0);}
+}
+
 </style>
+
 </head>
 
 <body>
 
-<!-- Music -->
 <audio id="bgMusic" loop>
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<!-- Reveal Screen -->
 <div id="revealScreen">
-<div id="revealText">Click to reveal</div>
+<div id="revealText">CLICK TO REVEAL</div>
 </div>
 
 <div class="container">
 
-<h1>Time left until PEAK</h1>
+<h1>TIME LEFT UNTIL PEAK</h1>
 
 <div class="timer">
 <div class="block"><div class="number" id="months"></div><div class="label">MONTHS</div></div>
@@ -185,7 +230,7 @@ transform:translateY(0);
 
 <script>
 
-/* Reveal + music fade in */
+/* Reveal + music fade */
 document.getElementById("revealScreen").addEventListener("click",function(){
 
 this.style.display="none";
@@ -194,25 +239,25 @@ const music=document.getElementById("bgMusic");
 music.volume=0;
 music.play();
 
-/* Smooth fade in music */
 let v=0;
 let fade=setInterval(()=>{
-if(v<0.5){
-v+=0.02;
+if(v<0.7){
+v+=0.03;
 music.volume=v;
-}else clearInterval(fade);
-},100);
+}
+else clearInterval(fade);
+},70);
 
 });
 
-/* Volume control */
+/* Volume */
 document.getElementById("volumeControl").addEventListener("input",function(){
 document.getElementById("bgMusic").volume=this.value;
 });
 
 /* Countdown */
-var startDate=new Date("January 1, 2024").getTime();
-var targetDate=new Date("December 31, 2026 00:00:00").getTime();
+var startDate=new Date("January 1, 2026").getTime();
+var targetDate=new Date("May 18, 2026 00:00:00").getTime();
 
 setInterval(function(){
 
@@ -226,12 +271,22 @@ var days=Math.floor((distance/(1000*60*60*24))%7);
 var weeks=Math.floor((distance/(1000*60*60*24*7))%4);
 var months=Math.floor((distance/(1000*60*60*24*30)));
 
-document.getElementById("months").innerHTML=months;
-document.getElementById("weeks").innerHTML=weeks;
-document.getElementById("days").innerHTML=days;
-document.getElementById("hours").innerHTML=hours;
-document.getElementById("minutes").innerHTML=minutes;
-document.getElementById("seconds").innerHTML=seconds;
+function animateNumber(id,value){
+let el=document.getElementById(id);
+if(el.innerHTML!=value){
+el.innerHTML=value;
+el.style.animation="none";
+void el.offsetWidth;
+el.style.animation="flipNum .6s ease";
+}
+}
+
+animateNumber("months",months);
+animateNumber("weeks",weeks);
+animateNumber("days",days);
+animateNumber("hours",hours);
+animateNumber("minutes",minutes);
+animateNumber("seconds",seconds);
 
 /* Progress */
 var total=targetDate-startDate;
@@ -239,6 +294,12 @@ var passed=now-startDate;
 var percent=(passed/total)*100;
 
 document.getElementById("progressBar").style.width=percent+"%";
+
+/* Legendary effect */
+if(percent>80){
+document.body.classList.add("shake");
+setTimeout(()=>document.body.classList.remove("shake"),400);
+}
 
 },1000);
 
