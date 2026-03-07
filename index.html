@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Time left until PEAK</title>
@@ -19,10 +20,8 @@ text-align:center;
 background-image:url("background.jpg");
 background-size:cover;
 background-position:center;
-background-repeat:no-repeat;
 }
 
-/* dark overlay */
 body::before{
 content:"";
 position:absolute;
@@ -30,23 +29,59 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.6);
-z-index:0;
+background:rgba(0,0,0,0.65);
 }
 
 .container{
 position:relative;
-z-index:1;
+z-index:2;
 }
 
 h1{
-font-size:50px;
-margin-bottom:20px;
+font-size:60px;
+margin-bottom:40px;
 }
 
-#countdown{
+.timer{
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.block{
+background:rgba(0,0,0,0.6);
+padding:25px;
+border-radius:10px;
+min-width:120px;
+box-shadow:0 0 20px rgba(255,255,255,0.2);
+}
+
+.number{
 font-size:45px;
-letter-spacing:2px;
+font-weight:bold;
+}
+
+.label{
+font-size:14px;
+opacity:0.8;
+}
+
+.progress-container{
+margin-top:40px;
+width:80%;
+height:10px;
+background:rgba(255,255,255,0.2);
+border-radius:10px;
+overflow:hidden;
+margin-left:auto;
+margin-right:auto;
+}
+
+.progress{
+height:100%;
+background:white;
+width:0%;
 }
 
 </style>
@@ -56,12 +91,52 @@ letter-spacing:2px;
 <body>
 
 <div class="container">
+
 <h1>Time left until PEAK</h1>
-<div id="countdown"></div>
+
+<div class="timer">
+
+<div class="block">
+<div class="number" id="months"></div>
+<div class="label">MONTHS</div>
+</div>
+
+<div class="block">
+<div class="number" id="weeks"></div>
+<div class="label">WEEKS</div>
+</div>
+
+<div class="block">
+<div class="number" id="days"></div>
+<div class="label">DAYS</div>
+</div>
+
+<div class="block">
+<div class="number" id="hours"></div>
+<div class="label">HOURS</div>
+</div>
+
+<div class="block">
+<div class="number" id="minutes"></div>
+<div class="label">MINUTES</div>
+</div>
+
+<div class="block">
+<div class="number" id="seconds"></div>
+<div class="label">SECONDS</div>
+</div>
+
+</div>
+
+<div class="progress-container">
+<div class="progress" id="progressBar"></div>
+</div>
+
 </div>
 
 <script>
 
+var startDate = new Date("January 1, 2024").getTime();
 var targetDate = new Date("May 18, 2026 00:00:00").getTime();
 
 setInterval(function(){
@@ -76,17 +151,24 @@ var days = Math.floor((distance/(1000*60*60*24))%7);
 var weeks = Math.floor((distance/(1000*60*60*24*7))%4);
 var months = Math.floor((distance/(1000*60*60*24*30)));
 
-document.getElementById("countdown").innerHTML =
-months + " months " +
-weeks + " weeks " +
-days + " days " +
-hours + " hours " +
-minutes + " minutes " +
-seconds + " seconds";
+document.getElementById("months").innerHTML = months;
+document.getElementById("weeks").innerHTML = weeks;
+document.getElementById("days").innerHTML = days;
+document.getElementById("hours").innerHTML = hours;
+document.getElementById("minutes").innerHTML = minutes;
+document.getElementById("seconds").innerHTML = seconds;
+
+var total = targetDate - startDate;
+var passed = now - startDate;
+
+var percent = (passed / total) * 100;
+
+document.getElementById("progressBar").style.width = percent + "%";
 
 },1000);
 
 </script>
 
 </body>
+
 </html>
