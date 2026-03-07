@@ -6,7 +6,8 @@
 
 <style>
 
-/* BODY BACKGROUND FIX */
+/* ================= BODY BACKGROUND ================= */
+
 body{
 margin:0;
 height:100vh;
@@ -25,32 +26,31 @@ background-repeat:no-repeat;
 position:relative;
 }
 
-/* Remove ALL dark covers */
-body::before,
-body::after{
-display:none;
-}
+/* ================= CONTAINER ================= */
 
-/* Container */
 .container{
 text-align:center;
 z-index:2;
 }
 
 /* Title */
+
 h1{
 font-size:70px;
 text-shadow:
 0 0 30px #b300ff,
-0 0 80px #8000ff;
+0 0 80px #8000ff,
+0 0 150px #e6a3ff;
 }
 
-/* Timer */
+/* ================= TIMER ================= */
+
 .timer{
 display:flex;
 gap:30px;
 flex-wrap:wrap;
 justify-content:center;
+perspective:1200px;
 }
 
 .block{
@@ -63,6 +63,8 @@ min-width:150px;
 box-shadow:
 0 0 40px #8000ff,
 0 0 90px rgba(179,0,255,0.7);
+
+border:1px solid rgba(255,255,255,0.1);
 }
 
 .number{
@@ -76,7 +78,8 @@ text-shadow:0 0 30px #b300ff;
 opacity:0.8;
 }
 
-/* Progress bar */
+/* ================= PROGRESS BAR ================= */
+
 .progress-container{
 margin-top:45px;
 width:80%;
@@ -99,15 +102,18 @@ box-shadow:0 0 80px #b300ff;
 transition:0.6s;
 }
 
-/* Reveal screen */
+/* ================= REVEAL SCREEN ================= */
+
 #revealScreen{
 position:fixed;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.95);
+
 display:flex;
 justify-content:center;
 align-items:center;
+
 z-index:999;
 cursor:pointer;
 }
@@ -119,36 +125,92 @@ color:#e6a3ff;
 text-shadow:0 0 50px #b300ff;
 }
 
-/* Volume */
+/* ================= Hologram Text ================= */
+
+#hologramText{
+position:absolute;
+font-size:90px;
+font-weight:bold;
+color:#e6a3ff;
+
+text-shadow:
+0 0 30px #b300ff,
+0 0 80px #8000ff,
+0 0 120px #e6a3ff;
+
+animation:holoFloat 6s ease-in-out infinite;
+pointer-events:none;
+z-index:3;
+}
+
+@keyframes holoFloat{
+0%{transform:translateY(0px) rotate(-3deg);}
+50%{transform:translateY(-50px) rotate(3deg);}
+100%{transform:translateY(0px) rotate(-3deg);}
+}
+
+/* ================= VOLUME ================= */
+
 #volumeControl{
 margin-top:30px;
 width:240px;
 }
 
 </style>
+
 </head>
 
 <body>
 
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
 <source src="song1.mp3" type="audio/mp3">
 </audio>
 
+<!-- REVEAL SCREEN -->
 <div id="revealScreen">
 <div id="revealText">CLICK TO REVEAL</div>
 </div>
+
+<!-- HOLOGRAM TEXT -->
+<div id="hologramText">PEAK</div>
 
 <div class="container">
 
 <h1>TIME LEFT UNTIL PEAK</h1>
 
 <div class="timer">
-<div class="block"><div class="number" id="months"></div><div>MONTHS</div></div>
-<div class="block"><div class="number" id="weeks"></div><div>WEEKS</div></div>
-<div class="block"><div class="number" id="days"></div><div>DAYS</div></div>
-<div class="block"><div class="number" id="hours"></div><div>HOURS</div></div>
-<div class="block"><div class="number" id="minutes"></div><div>MINUTES</div></div>
-<div class="block"><div class="number" id="seconds"></div><div>SECONDS</div></div>
+
+<div class="block">
+<div class="number" id="months"></div>
+<div class="label">MONTHS</div>
+</div>
+
+<div class="block">
+<div class="number" id="weeks"></div>
+<div class="label">WEEKS</div>
+</div>
+
+<div class="block">
+<div class="number" id="days"></div>
+<div class="label">DAYS</div>
+</div>
+
+<div class="block">
+<div class="number" id="hours"></div>
+<div class="label">HOURS</div>
+</div>
+
+<div class="block">
+<div class="number" id="minutes"></div>
+<div class="label">MINUTES</div>
+</div>
+
+<div class="block">
+<div class="number" id="seconds"></div>
+<div class="label">SECONDS</div>
+</div>
+
 </div>
 
 <div class="progress-container">
@@ -161,40 +223,20 @@ width:240px;
 
 <script>
 
-/* Create stars */
-for(let i=0;i<120;i++){
-let star=document.createElement("div");
-star.className="star";
-star.style.left=Math.random()*window.innerWidth+"px";
-star.style.top=Math.random()*window.innerHeight+"px";
-star.style.animationDuration=(2+Math.random()*6)+"s";
-document.body.appendChild(star);
-}
+/* ================= REVEAL + MUSIC ================= */
 
-/* Floating hologram text */
-let holo=document.createElement("div");
-holo.className="hologram";
-holo.innerHTML="PEAK";
-document.body.appendChild(holo);
-
-/* Mouse movement hologram */
-document.addEventListener("mousemove",e=>{
-holo.style.left=e.clientX+20+"px";
-holo.style.top=e.clientY+20+"px";
-});
-
-/* Reveal + music */
 document.getElementById("revealScreen").addEventListener("click",function(){
 
 this.style.display="none";
 
 const music=document.getElementById("bgMusic");
+
 music.volume=0;
 music.play();
 
 let v=0;
 let fade=setInterval(()=>{
-if(v<0.7){
+if(v<0.6){
 v+=0.03;
 music.volume=v;
 }else clearInterval(fade);
@@ -202,12 +244,23 @@ music.volume=v;
 
 });
 
-/* Volume */
+/* ================= VOLUME ================= */
+
 document.getElementById("volumeControl").addEventListener("input",function(){
 document.getElementById("bgMusic").volume=this.value;
 });
 
-/* Countdown */
+/* ================= HOLOGRAM MOUSE FOLLOW ================= */
+
+const holo=document.getElementById("hologramText");
+
+document.addEventListener("mousemove",e=>{
+holo.style.left=e.clientX+20+"px";
+holo.style.top=e.clientY+20+"px";
+});
+
+/* ================= COUNTDOWN ================= */
+
 var startDate=new Date("January 1, 2026").getTime();
 var targetDate=new Date("May 18, 2026 00:00:00").getTime();
 
@@ -235,12 +288,6 @@ var passed=now-startDate;
 var percent=(passed/total)*100;
 
 document.getElementById("progressBar").style.width=percent+"%";
-
-/* Bass pulse effect */
-if(percent>85){
-document.body.classList.add("shake");
-setTimeout(()=>document.body.classList.remove("shake"),300);
-}
 
 },1000);
 
