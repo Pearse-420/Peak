@@ -13,7 +13,7 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:Arial, sans-serif;
+font-family:Arial;
 color:white;
 text-align:center;
 
@@ -22,6 +22,7 @@ background-size:cover;
 background-position:center;
 }
 
+/* Dark overlay behind content */
 body::before{
 content:"";
 position:absolute;
@@ -30,23 +31,22 @@ left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.65);
+z-index:0;
 }
 
+/* Main container */
 .container{
 position:relative;
-z-index:2;
+z-index:1;
 }
 
-h1{
-font-size:60px;
-margin-bottom:40px;
-}
-
+/* Timer blocks */
 .timer{
 display:flex;
 gap:25px;
 justify-content:center;
 flex-wrap:wrap;
+margin-top:20px;
 }
 
 .block{
@@ -54,7 +54,6 @@ background:rgba(0,0,0,0.6);
 padding:25px;
 border-radius:10px;
 min-width:120px;
-box-shadow:0 0 20px rgba(255,255,255,0.2);
 }
 
 .number{
@@ -67,6 +66,7 @@ font-size:14px;
 opacity:0.8;
 }
 
+/* Progress bar */
 .progress-container{
 margin-top:40px;
 width:80%;
@@ -84,20 +84,42 @@ background:white;
 width:0%;
 }
 
+/* Reveal screen */
+#revealScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+backdrop-filter: blur(12px);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+cursor:pointer;
+}
+
+#revealText{
+font-size:40px;
+letter-spacing:3px;
+}
+
 </style>
 
 </head>
 
 <body>
-  <audio id="bgMusic" loop>
+
+<!-- Music -->
+<audio id="bgMusic" loop>
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<script>
-window.addEventListener("click", function(){
-document.getElementById("bgMusic").play();
-});
-</script>
+<!-- Reveal screen -->
+<div id="revealScreen">
+<div id="revealText">Click to reveal</div>
+</div>
 
 <div class="container">
 
@@ -145,6 +167,13 @@ document.getElementById("bgMusic").play();
 
 <script>
 
+/* Reveal screen */
+document.getElementById("revealScreen").addEventListener("click", function(){
+this.style.display="none";
+document.getElementById("bgMusic").play();
+});
+
+/* Countdown */
 var startDate = new Date("January 1, 2026").getTime();
 var targetDate = new Date("May 18, 2026 00:00:00").getTime();
 
@@ -167,17 +196,16 @@ document.getElementById("hours").innerHTML = hours;
 document.getElementById("minutes").innerHTML = minutes;
 document.getElementById("seconds").innerHTML = seconds;
 
+/* Progress bar */
 var total = targetDate - startDate;
 var passed = now - startDate;
 
-var percent = (passed / total) * 100;
-
+var percent = (passed/total) * 100;
 document.getElementById("progressBar").style.width = percent + "%";
 
 },1000);
 
 </script>
-  
-</body>
 
+</body>
 </html>
